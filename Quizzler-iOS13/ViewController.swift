@@ -10,10 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let quiz : [[String]] = [
-        ["Is Archie A good Boy?", "True"],
-        ["Is Jacxon also called Ms. Muffet?", "True"],
-        ["Is Janet the boss of the puppies?", "False"]
+    let quiz : [Question] = [
+        Question(text: "Is Archie a good boy?", answer: "True"),
+        Question(text: "Is Jaxon called Ms. Muffet", answer: "True"),
+        Question(text: "Is Janet the boss of the puppies?", answer: "False")
     ]
     
     var questionNumber : Int = 0
@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var ProgressBar: UIProgressView!
     
     func updateUI(number: Int) {
-        questionView.text = quiz[number][0]
+        questionView.text = quiz[number].text
     }
     
     override func viewDidLoad() {
@@ -37,14 +37,19 @@ class ViewController: UIViewController {
         
         let userAnswer : String = sender.currentTitle!
         
-        let questionAnswer : String = quiz[questionNumber][1]
+        let questionAnswer : String = quiz[questionNumber].answer
         
         if userAnswer == questionAnswer {
             print("puppies")
         } else {
             print("cats")
         }
-        questionNumber += 1
+        
+        if questionNumber + 1 != quiz.count {
+            questionNumber += 1
+        } else {
+            questionNumber = 9
+        }
         
         updateUI(number: questionNumber)
     }
