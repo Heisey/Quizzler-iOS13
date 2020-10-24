@@ -23,8 +23,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var questionView: UILabel!
     @IBOutlet weak var ProgressBar: UIProgressView!
     
+    @objc func resetButtonsBackground() {
+        trueButton.backgroundColor = UIColor.clear
+        falseButton.backgroundColor = UIColor.clear
+    }
+    
     func updateUI(number: Int) {
+        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(resetButtonsBackground), userInfo: nil, repeats: false)
+        
         questionView.text = quiz[number].text
+        ProgressBar.progress = Float(questionNumber + 1) / Float(quiz.count)
     }
     
     override func viewDidLoad() {
@@ -40,15 +48,15 @@ class ViewController: UIViewController {
         let questionAnswer : String = quiz[questionNumber].answer
         
         if userAnswer == questionAnswer {
-            print("puppies")
+            sender.backgroundColor = UIColor.green
         } else {
-            print("cats")
+            sender.backgroundColor = UIColor.red
         }
         
         if questionNumber + 1 != quiz.count {
             questionNumber += 1
         } else {
-            questionNumber = 9
+            questionNumber = 0
         }
         
         updateUI(number: questionNumber)
